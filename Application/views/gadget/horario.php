@@ -1,0 +1,1 @@
+<?=date('d/m/y H:i:s',strtotime($data[0]->u_horario))?>

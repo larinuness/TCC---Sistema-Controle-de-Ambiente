@@ -1,0 +1,96 @@
+<?php
+
+use Application\core\Controller;
+
+class InterfaceController extends Controller
+{
+
+    public function index()
+    {
+        $this->pageNotFound();
+    }
+
+    public function enviaTemperatura($temp=null, $mod=null)
+    {
+        if(!isset($temp) or !is_numeric($temp)){
+            $this->pageNotFound();
+            exit();
+        }
+
+        if(!isset($mod) or !is_numeric($mod)){
+            $this->pageNotFound();
+            exit();
+        }
+
+        date_default_timezone_set('America/Sao_Paulo');
+
+        $datahora = date('Y-m-d H:i:s');
+
+        $gadget = $this->model('Gadget');
+
+        $retorno = $gadget->alterarTemp($temp, $datahora, $mod);
+
+        if (!$retorno['isError']) {
+            if ($retorno[0] == 1) {
+                $usuGad = $this->model('UsuariosGadgets');
+
+                $retorno2 = $usuGad->buscaPrimeiroUsuarioGadget($mod);
+
+                if (!$retorno2['isError']) {
+                    $id_modulo_usuario = $retorno2[0][0]->id;
+                    $atividade = "Temperatura: $temp ºC";
+                    $situacao = 1;
+
+                    $atv = $this->model('Atividade');
+
+                    $retorno3 = $atv->gravaAtividade($id_modulo_usuario, $atividade, $situacao, $datahora);
+
+                    if (!$retorno3['isError']) {
+                        if ($retorno3[0] == 1) {
+                            $this->view('interface/enviaTemperatura', 'Temperatura Atualizada');
+                        } else {
+                            $this->view('interface/enviaTemperatura', 'Temperatura não foi atualizada');
+                        }
+                    } else {
+                        http_response_code(500);
+                    }
+                } else {
+                    http_response_code(500);
+                }
+            }
+        } else {
+            http_response_code(500);
+        }
+    }
+
+    public function escutador($modulo){
+        if(!isset($modulo) or !is_numeric($modulo)){
+            $this->pageNotFound();
+            exit();
+        }
+
+        $usuGad = $this->model('UsuariosGadgets');
+
+        $retorno = $usuGad->buscaUsuariosGadgetsMod($modulo);
+
+        if(!$retorno['isError']){
+            $id_modulo_usuario = $retorno[0];
+
+            $atv = $this->model('Atividade');
+
+            $retorno2 = $atv->buscaAtividadesModuloUsuario($id_modulo_usuario);
+
+            if(!$retorno2['isError']){
+                if($retorno2[0][0]->situacao == 1){
+                    $this->view( 'interface/escutador',"ligar");
+                } else {
+                    $this->view( 'interface/escutador',"desligar");
+                }
+            }else{
+                $this->view( 'interface/escutador',"nada");
+            }
+        } else {
+            $this->view( 'interface/escutador',"nada");
+        }
+    }
+}

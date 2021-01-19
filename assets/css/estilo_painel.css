@@ -1,0 +1,54 @@
+		.cursos {
+			padding: 0.8em;
+			position: relative;
+		}
+		
+		.cursos a {
+			text-align: center;
+			color: white;
+			height: 7em;
+			display: block;
+			padding: 0.9em 0em 0.1em 0em;
+			font-size: 1.1em;
+		}
+		
+		.cursos a:hover {
+			text-decoration: none;
+			color: black;
+		}
+		
+		.cursos span {
+			font-size: 3em;
+			display: block;
+			padding-bottom: 0.2em;
+			
+			
+		}
+		
+.pct_ess_jr a {
+	background-color: #0D98BA;
+}
+		
+.pct_ess_pl a {
+	background-color: #DC143C;
+}
+
+.pct_ess_sr a {
+	background-color: #007BA7;
+}
+
+.pct_dev_web a {
+	background-color: #008B8B;
+}
+
+.pct_manu a {
+	background-color: #004C54;
+}
+
+.pct_adm a {
+	background-color: #FA8072;
+}
+
+.pct_ing a {
+	background-color: #008B8B;
+}

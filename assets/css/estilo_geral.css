@@ -1,0 +1,27 @@
+.voltar {
+	width: 100%;
+	padding: 0px !important;
+	margin: 0.8em 0em 0.2em 0em;
+	height: 2em;
+	background-color: #1E90FF;
+}
+.voltar a {
+	position: relative;
+	float: right;
+	color: white;
+	padding: 0.3em 0.5em;
+	background-color: red;
+	border-radius: 5px;
+}
+		
+.voltar a:hover {
+	text-decoration: none;
+	color: white;
+}
+		
+.centralizado {
+	text-align: center;
+	padding-right: 15px;
+	padding-left: 15px;
+}
+
